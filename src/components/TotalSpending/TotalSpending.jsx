@@ -10,7 +10,7 @@ export default function TotalSpending({onClick, spending, className}) {
     return (
         <div onClick={onClick} className={`container ${className}`}>
             <div className={className}>
-                <img src="../src/assets/carteira.png" alt="ícone" />
+                <img src="/carteira.png" alt="ícone" />
             </div>
             <p>Gastos Totais</p>
             <h2 style={{color: 'red'}}>R${spending}</h2>
