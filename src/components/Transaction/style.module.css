@@ -1,0 +1,24 @@
+.container {
+    width: 100%;
+
+    display: flex;
+    gap: 8px;
+}
+
+.container div {
+    width: 545px;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: .5rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.container button {
+    min-width: 45px;
+    height: 45px;
+    background-color: #dc3546;
+    border-radius: .5rem;
+    cursor: pointer;
+}
