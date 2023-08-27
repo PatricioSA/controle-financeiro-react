@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import appWallet from '/images/app-wallet-passes.png'
 
 TotalBalance.propTypes = {
     onClick: PropTypes.func,
@@ -10,7 +11,7 @@ export default function TotalBalance({onClick, totalBalance, className}) {
     return (
         <div onClick={onClick} className={`container ${className}`}>
             <div className={className}>
-                <img src="/images/app-wallet-passes.png" alt="ícone" />
+                <img src={appWallet} alt="ícone" />
             </div>
             <p>Total</p>
             <h2>R${totalBalance}</h2>
