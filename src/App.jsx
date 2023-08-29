@@ -1,5 +1,5 @@
 import './App.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import TotalBalance from './components/TotalBalance/TotalBalance'
 import TotalSpending from './components/TotalSpending/TotalSpending'
 import TotalSaved from './components/TotalSaved/TotalSaved'
@@ -8,9 +8,10 @@ import Chart from 'chart.js/auto'
 import { CategoryScale } from 'chart.js'
 import MainChart from './components/MainChart'
 import MyChart from './components/Chart'
-import Transaction from './components/Transaction/Transaction'
 import Modal from 'react-modal'
+import Loading from './components/Loanding'
 import MyModal from './components/MyModal/MyModal'
+const Transaction = lazy(() => import('./components/Transaction/Transaction'))
 
 Chart.register(CategoryScale)
 Modal.setAppElement('#root')
@@ -18,7 +19,7 @@ Modal.setAppElement('#root')
 function App() {
   const { transactions, addTransaction, removeTransaction } = useTransactionsCollection()
   const [activeComponent, setActiveComponent] = useState('TotalBalance');
-  const [showChart, setShowChart] = useState(true); // Estado para controlar a exibição do gráfico
+  const [showChart, setShowChart] = useState(true);
   const [modalIsOpen, setIsOpen] = useState(false)
 
   const handleComponentChange = (component) => {
@@ -62,7 +63,7 @@ function App() {
       },
     ],
   };
-  
+
   const categoryChartData = {
     labels: Object.keys(calculateCategoryTotal()),
     datasets: [{
@@ -98,8 +99,8 @@ function App() {
 
       <section>
         {activeComponent === 'TotalBalance' && showChart &&
-          <div style={{ maxWidth: '700px', margin: '3rem 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', backgroundColor: '#fff', borderRadius:'.5rem' }}>
-            <MainChart charData={chartData}/>
+          <div style={{ maxWidth: '700px', margin: '3rem 0', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', backgroundColor: '#fff', borderRadius: '.5rem' }}>
+            <MainChart charData={chartData} />
             <MyChart charData={categoryChartData} />
           </div>
         }
@@ -109,13 +110,14 @@ function App() {
             {transactions
               .filter(transaction => transaction.transactionType === 'despesa')
               .map((transaction) => (
-                <Transaction
-                  key={transaction.id}
-                  transactionName={transaction.transactionName}
-                  transactionValue={transaction.amount}
-                  expenseOrIncome={transaction.transactionType}
-                  onRemove={() => removeTransaction(transaction.id)}
-                />
+                <Suspense fallback={<Loading />} key={transaction.id}>
+                  <Transaction
+                    transactionName={transaction.transactionName}
+                    transactionValue={transaction.amount}
+                    expenseOrIncome={transaction.transactionType}
+                    onRemove={() => removeTransaction(transaction.id)}
+                  />
+                </Suspense>
               ))}
           </section>
         )}
@@ -125,13 +127,14 @@ function App() {
             {transactions
               .filter(transaction => transaction.transactionType === 'receita')
               .map((transaction) => (
-                <Transaction
-                  key={transaction.id}
-                  transactionName={transaction.transactionName}
-                  transactionValue={transaction.amount}
-                  expenseOrIncome={transaction.transactionType}
-                  onRemove={() => removeTransaction(transaction.id)}
-                />
+                <Suspense fallback={<Loading/>} key={transaction.id}>
+                  <Transaction
+                    transactionName={transaction.transactionName}
+                    transactionValue={transaction.amount}
+                    expenseOrIncome={transaction.transactionType}
+                    onRemove={() => removeTransaction(transaction.id)}
+                  />
+                </Suspense>
               ))}
           </section>
         )}
