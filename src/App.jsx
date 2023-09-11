@@ -1,5 +1,5 @@
 import './App.css'
-import { useState, useEffect, lazy, Suspense } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import TotalBalance from './components/TotalBalance/TotalBalance'
 import TotalSpending from './components/TotalSpending/TotalSpending'
 import TotalSaved from './components/TotalSaved/TotalSaved'
@@ -72,12 +72,6 @@ function App() {
       data: Object.values(calculateCategoryTotal())
     }]
   }
-
-  useEffect(() => {
-    // Atualiza os valores do gráfico sempre que as transações mudarem
-    chartData.datasets[0].data = [calculateIncomes() || 1, calculateExpenses() || 1];
-    categoryChartData.datasets[0].data = Object.values(calculateCategoryTotal());
-  });
 
   function openModal() {
     setIsOpen(true)
