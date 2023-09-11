@@ -14,7 +14,9 @@ export default function TotalSaved({onClick, incomes, className}) {
                 <img src={moneyBag} alt="ícone" />
             </div>
             <p>Receitas Totais</p>
-            <h2 style={{color: 'green'}}>R${incomes}</h2>
+            <h2 style={className === 'active' ? {color: '#29F709'} : {color: 'green'}}>
+                R${incomes}
+            </h2>
         </div>
     )
 }
